@@ -2,38 +2,30 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AJAX Button Request</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>AJAX Example</title>
 </head>
 <body>
 
-    <h2>Click the button to request data:</h2>
-    <button id="fetchDataButton">Fetch Data</button>
-
-    <h3>Received Data:</h3>
-    <pre id="result"></pre>
+    <button onclick="fetchData()">Fetch Data</button>
+    <div id="result"></div>
 
     <script>
-        // jQuery to handle the button click event
-        $('#fetchDataButton').click(function() {
-            // AJAX request to fetch JSON data from a remote server
-            $.ajax({
-                url: 'https://jsonplaceholder.typicode.com/todos/1',  // Example dummy API
-                method: 'GET',  // Use GET to fetch data
-                success: function(response) {
-                    // On success, display the response data
-                    $('#result').html(JSON.stringify(response, null, 2));  // Format the JSON for better readability
-                },
-                error: function() {
-                    // On error, display an error message
-                    $('#result').html('Error fetching data!');
+        function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/todos/1', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        document.getElementById('result').innerText = xhr.responseText;
+                    } else {
+                        document.getElementById('result').innerText = 'Error fetching data!';
+                    }
                 }
-            });
-        });
+            };
+            xhr.send();
+        }
     </script>
 
 </body>
